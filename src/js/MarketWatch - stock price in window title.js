@@ -10,20 +10,25 @@
 (function() {
     'use strict';
 
-    const STOCK_VALUE_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div.template.template--aside > div > div > div.intraday__data > h3 > bg-quote'
-    const STOCK_NAME_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div:nth-child(1) > div.column.column--full.company > div > div:nth-child(1) > div.company__symbol > span.company__ticker'
+    const STOCK_PRICE_NOW_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div.template.template--aside > div > div > div.intraday__data > h3 > bg-quote'
+    const STOCK_PRICE_YESTERDAY_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div.template.template--aside > div > div > div.intraday__close > table > tbody > tr > td'
+	const STOCK_NAME_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div:nth-child(1) > div.column.column--full.company > div > div:nth-child(1) > div.company__symbol > span.company__ticker'
 	const REFRESH_TITLE_INTERVAL = 8 * 1000
-	const REFRESH_PAGE_TIMEOUT = (128 + Math.floor(Math.random() * 100 % 16); ) * 1000
+	const REFRESH_PAGE_TIMEOUT = (128 + Math.floor(Math.random() * 100 % 16)) * 1000
 	
-	function showCurrentValue(stockValueSelector, stockNameSelector) {
-		var price = document.querySelector(stockValueSelector).textContent
+	function showCurrentValue(stockPriceNowSelector, stockPriceYesterdaySelector, stockNameSelector) {
+		var price = document.querySelector(stockPriceNowSelector).textContent
 		var name = document.querySelector(stockNameSelector).textContent
-		document.title = [name, price].join(" ")
+		var yesterdayPrice = document.querySelector(stockPriceYesterdaySelector).textContent.substr(1)
+		
+		var priceChange = (parseFloat(price) - parseFloat(yesterdayPrice)).toFixed(2)
+		
+		document.title = `${name}: ${price} (${priceChange})`  
 	}
 	
 	// Update title 
-	setInterval(showCurrentValue.bind(null, STOCK_VALUE_SELECTOR, STOCK_NAME_SELECTOR), REFRESH_TITLE_INTERVAL)
+	setInterval(showCurrentValue.bind(null, STOCK_PRICE_NOW_SELECTOR, STOCK_PRICE_YESTERDAY_SELECTOR,  STOCK_NAME_SELECTOR), REFRESH_TITLE_INTERVAL)
 	
 	// Refresh page
-	setTimeout(function(){ location.reload(); }, REFRESH_PAGE_TIMEOUT);
+	setTimeout(function(){ location.reload(); }, REFRESH_PAGE_TIMEOUT)
 })();
