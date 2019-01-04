@@ -12,8 +12,8 @@
 
     const STOCK_VALUE_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div.template.template--aside > div > div > div.intraday__data > h3 > bg-quote'
     const STOCK_NAME_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div:nth-child(1) > div.column.column--full.company > div > div:nth-child(1) > div.company__symbol > span.company__ticker'
-	const REFRESH_TITLE_INTERVAL = 5 * 1000
-	const REFRESH_PAGE_TIMEOUT = 120 * 1000
+	const REFRESH_TITLE_INTERVAL = 8 * 1000
+	const REFRESH_PAGE_TIMEOUT = (128 + Math.floor(Math.random() * 100 % 16); ) * 1000
 	
 	function showCurrentValue(stockValueSelector, stockNameSelector) {
 		var price = document.querySelector(stockValueSelector).textContent
