@@ -10,15 +10,20 @@
 (function() {
     'use strict';
 
-    var valueQuerySelector = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div.template.template--aside > div > div > div.intraday__data > h3 > bg-quote'
-    var nameQuerySelector = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div:nth-child(1) > div.column.column--full.company > div > div:nth-child(1) > div.company__symbol > span.company__ticker'
-	var refreshInternalIn = 5 * 1000
+    const STOCK_VALUE_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div.template.template--aside > div > div > div.intraday__data > h3 > bg-quote'
+    const STOCK_NAME_SELECTOR = 'body > div.container.wrapper.clearfix.j-quoteContainer.stock > div.content-region.region--fixed > div:nth-child(1) > div.column.column--full.company > div > div:nth-child(1) > div.company__symbol > span.company__ticker'
+	const REFRESH_TITLE_INTERVAL = 5 * 1000
+	const REFRESH_PAGE_TIMEOUT = 120 * 1000
 	
-	function showCurrentValue(valueQuerySelector, nameQuerySelector) {
-		var price = document.querySelector(valueQuerySelector).textContent
-		var name = document.querySelector(nameQuerySelector).textContent
+	function showCurrentValue(stockValueSelector, stockNameSelector) {
+		var price = document.querySelector(stockValueSelector).textContent
+		var name = document.querySelector(stockNameSelector).textContent
 		document.title = [name, price].join(" ")
 	}
 	
-	setInterval(showCurrentValue.bind(null, valueQuerySelector, nameQuerySelector), refreshInternalIn)
+	// Update title 
+	setInterval(showCurrentValue.bind(null, STOCK_VALUE_SELECTOR, STOCK_NAME_SELECTOR), REFRESH_TITLE_INTERVAL)
+	
+	// Refresh page
+	setTimeout(function(){ location.reload(); }, REFRESH_PAGE_TIMEOUT);
 })();
